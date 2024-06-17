@@ -8,6 +8,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+
 // aqui estou uma classe que se chama banco de dados 
 public class ConexaoBanco {
     private static final String URL = "jdbc:postgresql://localhost:5432/clientesdb";
@@ -42,26 +45,27 @@ public class ConexaoBanco {
         }
     }
 
-    public static List<Cliente> PegarCliente() {
-        String SQL = "SELECT * FROM cliente";
-        List<Cliente> clientes = new ArrayList<>();
-        try (Connection conn = connect();
-            PreparedStatement pstmt = conn.prepareStatement(SQL);
-             ResultSet rs = pstmt.executeQuery()) {
-            while (rs.next()) {
-                Cliente cliente = new Cliente(
-                    rs.getString("nome"),
-                    rs.getString("idade"),
-                    rs.getString("sexo"),
-                    rs.getString("profissao")
-                );
-                clientes.add(cliente);
-            }
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
+    public static ObservableList<Cliente> PegarCliente() {
+    String SQL = "SELECT * FROM cliente";
+    ObservableList<Cliente> clientes = javafx.collections.FXCollections.observableArrayList();
+    try (Connection conn = connect();
+        PreparedStatement pstmt = conn.prepareStatement(SQL);
+         ResultSet rs = pstmt.executeQuery()) {
+        while (rs.next()) {
+            Cliente cliente = new Cliente(
+                rs.getString("nome"),
+                rs.getString("idade"),
+                rs.getString("sexo"),
+                rs.getString("profissao")
+            );
+            clientes.add(cliente);
         }
-        return clientes;
+    } catch (SQLException ex) {
+        System.out.println(ex.getMessage());
     }
+    return clientes;
+}
+
 
     public static void deletarCliente(Cliente cliente) {
         String SQL = "DELETE FROM cliente WHERE nome = ?";
@@ -72,6 +76,21 @@ public class ConexaoBanco {
             System.out.println("Cliente deletado com sucesso.");
         } catch (SQLException ex) {
             System.out.println("Erro ao deletar cliente.");
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    public static void EditarCliente(Cliente cliente, String nomeOriginal) {
+        String SQL = "UPDATE cliente SET nome = ?, idade = ?, sexo = ?, profissao = ? WHERE nome = ?";
+        try (Connection conn = connect();
+            PreparedStatement pstmt = conn.prepareStatement(SQL)) {
+            pstmt.setString(1, cliente.nome);
+            pstmt.setString(2, cliente.idade);
+            pstmt.setString(3, cliente.sexo);
+            pstmt.setString(4, cliente.profissao);
+            pstmt.setString(5, nomeOriginal);
+            pstmt.executeUpdate();
+        } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
     }

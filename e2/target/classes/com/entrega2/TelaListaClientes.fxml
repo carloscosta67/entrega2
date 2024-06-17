@@ -23,6 +23,7 @@
                         </Label>
                         <ListView fx:id="listView" layoutX="141.0" layoutY="102.0" prefHeight="200.0" prefWidth="330.0" />
                         <Button layoutX="189.0" layoutY="314.0" mnemonicParsing="false" onAction="#excluirCliente" text="Deletar Cliente" />
+                        <Button layoutX="329.0" layoutY="314.0" mnemonicParsing="false" onAction="#editarCliente" text="Editar Cliente" />
                      </children>
                   </AnchorPane>
                </content>
