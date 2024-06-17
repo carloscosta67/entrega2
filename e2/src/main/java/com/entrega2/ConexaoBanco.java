@@ -62,6 +62,19 @@ public class ConexaoBanco {
         }
         return clientes;
     }
+
+    public static void deletarCliente(Cliente cliente) {
+        String SQL = "DELETE FROM cliente WHERE nome = ?";
+        try (Connection conn = connect();
+            PreparedStatement pstmt = conn.prepareStatement(SQL)) {
+            pstmt.setString(1, cliente.nome);
+            pstmt.executeUpdate();
+            System.out.println("Cliente deletado com sucesso.");
+        } catch (SQLException ex) {
+            System.out.println("Erro ao deletar cliente.");
+            System.out.println(ex.getMessage());
+        }
+    }
 }
 
     

@@ -5,9 +5,6 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
@@ -25,6 +22,7 @@
                            </font>
                         </Label>
                         <ListView fx:id="listView" layoutX="141.0" layoutY="102.0" prefHeight="200.0" prefWidth="330.0" />
+                        <Button layoutX="189.0" layoutY="314.0" mnemonicParsing="false" onAction="#excluirCliente" text="Deletar Cliente" />
                      </children>
                   </AnchorPane>
                </content>

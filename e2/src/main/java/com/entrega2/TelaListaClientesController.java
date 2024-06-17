@@ -2,6 +2,8 @@ package com.entrega2;
 
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.text.Text;
@@ -50,5 +52,23 @@ public class TelaListaClientesController {
                 }
             }
         });
+    }
+
+    @FXML
+    void excluirCliente() {
+        Cliente clienteSelecionado = listView.getSelectionModel().getSelectedItem();
+        if (clienteSelecionado != null) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmação");
+            alert.setHeaderText("Tem certeza que deseja excluir este cliente?");
+            alert.setContentText("Esta ação não pode ser desfeita.");
+
+            alert.showAndWait().ifPresent(response -> {
+                if (response == ButtonType.OK) {
+                    ConexaoBanco.deletarCliente(clienteSelecionado);
+                    listView.getItems().remove(clienteSelecionado);
+                }
+            });
+        }
     }
 }
